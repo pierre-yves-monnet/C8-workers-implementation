@@ -87,7 +87,7 @@ public class WorkerApplication {
         .handler(new CalculateExecutionWorker(workerConfig, monitorWorker))
         .open();
 
-    monitorWorker.monitor();
+    // monitorWorker.monitor();
 
   }
   // https://docs.camunda.io/docs/components/best-practices/development/writing-good-workers/

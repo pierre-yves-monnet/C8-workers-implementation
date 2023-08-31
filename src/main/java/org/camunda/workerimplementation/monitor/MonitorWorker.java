@@ -4,6 +4,7 @@ import io.camunda.zeebe.client.api.worker.JobHandler;
 import org.camunda.workerimplementation.workers.WorkToComplete;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@EnableScheduling
 public class MonitorWorker {
 
   Logger logger = LoggerFactory.getLogger(MonitorWorker.class);

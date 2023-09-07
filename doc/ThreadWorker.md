@@ -21,7 +21,10 @@ If the worker consists of executing a REST API and waiting actively for the retu
 acceptable because it does not consume any CPU or Memory during the waiting time, but a lot of
 threads are generated.
 
-## Concern
+## Concerns
 The main concern of this implementation is that you do not control the number of threads your worker
-can run. If 10,000 tasks are waiting, one worker like this can quickly acquire them.  
+can run. If 10,000 tasks are waiting, one worker like this can quickly acquire them.
 
+## Use case
+If the worker consists of sending a request to an external service and waits for the answer, it is the perfect pattern.
+The handle() method can throw the request directly (or create a thread to throw the request), and one thread expects the result to complete the task.

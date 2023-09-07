@@ -14,7 +14,7 @@ Note: This reflection is acceptable for C7 workers
 .defaultJobWorkerMaxJobsActive( <a number> )
 ````
 
-The number of jobsjobs is the number the Zeebe Client asks Zeebe. When 100 jobs are requested,
+The number of jobs is the number the Zeebe Client asks Zeebe. When 100 jobs are requested,
 a batch of 100 jobs is returned. If there are fewer jobs, then Zeebe does not wait for 100
 but returns what it has.
 
@@ -30,10 +30,10 @@ Multiple threads can be used to process this batch: this is the number of thread
 
 According to that:
 * NumberOfTreads bigger than NumberOfJobs
-Specifying more threads than jobs makes no sense: NumberOfJobs will be fetched and sent to
-all threads. The other threads will never be used.
+  Specifying more threads than jobs makes no sense: NumberOfJobs will be fetched and sent to
+  all threads. The other threads will never be used.
 
-* when the NumberOfJobs is bigger than the NumberOfThreads.
+* When the NumberOfJobs is bigger than the NumberOfThreads.
   The first NumberOfThreads are immediately processed.
   Another job waits in the queue to have an available thread. So, the lock time must be addressed
   correctly: this is not the time to execute one job, but two or maybe more (number of jobs/NumberOfThread more)
@@ -45,10 +45,12 @@ When you execute a service task, you can set up multiple threads and ask for mul
 Let's say you set up, for the service task "credit-charging", three threads and three jobs simultaneously.
 This service task takes 1 to 5 seconds to answer.
 
+Visit the detail on each implementation for description, advantages and concerns, and use case.
+
 ## Classical Worker
 
 This implementation realizes the treatment in the handle method.
-The test shows the efficiency is about 68 % when the worker time is homogeneous and drops down to
+The test shows the efficiency is about 68 % when the worker time is homogeneous and drops when worker time is different.
 
 Visit [Classical Worker](doc/ClassicalWorker.md) detail.
 
@@ -200,7 +202,7 @@ If for the same amount of work (2 seconds), it takes 2 seconds, then the efficie
 
 Having a value under 100% means that your Tworkers machine does not work at its full capacity. You specify 100 threads, but it used only 80% of the capacity.
 
-However, using more than 100% is dangerous: You specify a number of threads to work, and if you use more than that, you don't have any control 
+However, using more than 100% is dangerous: You specify a number of threads to work, and if you use more than that, you don't have any control
 and you can overload your machine.
 
 
@@ -219,7 +221,7 @@ It results from a list of 1000 tasks, homogeneous workers: each worker needs 5 s
 
 The same simulation in a heterogeneous worker needs 5 to 15 seconds to complete the work.
 The total of work is the same (total time to wait), but the distribution is heterogeneous: one
-job will wait 3 seconds, and another works 7 seconds.
+job will wait 3 seconds, and another work 7 seconds.
 
 `Classical worker` needs more time to handle the same throughput.
 `Thread Token Worker` keeps the same level of efficiency. `Thread Worker` or `Asynchronous Thread` has the

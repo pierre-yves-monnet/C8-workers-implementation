@@ -23,7 +23,7 @@ Some threads will not be used when a new job is requested. So, the worker does n
 ## Advantages
 This implementation is simple and very efficient with one thread.
 
-## Concern
+## Concerns
 When you configure the worker with multiple threads and tasks, this method
 is less efficient: the library waits for the last execution of the batch
 to query a new batch of jobs. If execution time varies between jobs,
@@ -32,4 +32,6 @@ one line works on a long job, and another thread is not used.
 This implementation is inefficient if the worker calls an external service and waits for feedback to execute
 the task.
 
+## Use case
+This is the default implementation. If the platform does not face high throughput, this is the most simple implementation.
 

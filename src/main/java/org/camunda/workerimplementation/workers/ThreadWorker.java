@@ -10,12 +10,10 @@ import org.slf4j.LoggerFactory;
 
 public class ThreadWorker implements JobHandler {
 
-  private final WorkerConfig workerConfig;
   private final MonitorWorker monitorWorker;
   Logger logger = LoggerFactory.getLogger(ThreadWorker.class);
 
   public ThreadWorker(WorkerConfig workerConfig, MonitorWorker monitorWorker) {
-    this.workerConfig = workerConfig;
     this.monitorWorker = monitorWorker;
   }
 
@@ -25,6 +23,7 @@ public class ThreadWorker implements JobHandler {
 
     monitorWorker.startHandle(this);
 
+    // We do the job in a different thread, then this method ends, and Zeebe Client can ask a new batch
     doWorkInDifferentThread(jobClient, activatedJob);
 
     monitorWorker.stopHandle(this);

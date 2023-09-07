@@ -27,7 +27,9 @@ public class SetListWorker implements JobHandler {
   @Override
   public void handle(JobClient jobClient, ActivatedJob job) throws Exception {
 
-    logger.info("------------- Worker: setListWorker");
+    String typeWorker = (String) job.getVariablesAsMap().get(ProcessVariables.TYPE_WORKER);
+
+    logger.info("------------- Worker: setListWorker ["+typeWorker+"]");
     monitorWorker.beginCampaign();
     int totalTime = workerConfig.getSizeOfTheList() * 5000;
     int sumOfTime = 0;
@@ -52,7 +54,6 @@ public class SetListWorker implements JobHandler {
       }
     }
     // double check
-    sumOfTime = 0;
     Integer sum = listValues.stream().reduce(0, Integer::sum);
     if (sum != totalTime) {
       logger.error("Sum is different !");

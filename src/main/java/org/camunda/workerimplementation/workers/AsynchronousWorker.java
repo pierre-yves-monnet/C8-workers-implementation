@@ -10,12 +10,10 @@ import org.slf4j.LoggerFactory;
 
 public class AsynchronousWorker implements JobHandler {
 
-  private final WorkerConfig workerConfig;
   private final MonitorWorker monitorWorker;
   Logger logger = LoggerFactory.getLogger(AsynchronousWorker.class);
 
   public AsynchronousWorker(WorkerConfig workerConfig, MonitorWorker monitorWorker) {
-    this.workerConfig = workerConfig;
     this.monitorWorker = monitorWorker;
   }
 
@@ -28,6 +26,7 @@ public class AsynchronousWorker implements JobHandler {
     jobClient.newCompleteCommand(activatedJob.getKey()).send().join();
     monitorWorker.stopHandle(this);
 
+    // Job will be executed here, in a different thread
     doWorkInDifferentThread(jobClient, activatedJob);
   }
 

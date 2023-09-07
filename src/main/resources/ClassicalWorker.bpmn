@@ -10,6 +10,9 @@
     <bpmn:serviceTask id="Activity_0orsbjh" name="setList">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="setlist-worker" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=&#34;ClassicalWorker&#34;" target="typeWorker" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1o5dfll</bpmn:incoming>
       <bpmn:outgoing>Flow_0eoivcf</bpmn:outgoing>

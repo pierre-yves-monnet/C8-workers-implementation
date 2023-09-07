@@ -7,6 +7,9 @@
     <bpmn:serviceTask id="Activity_185erq2" name="setList">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="setlist-worker" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=&#34;AsynchronousWorker&#34;" target="typeWorker" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0urro2x</bpmn:incoming>
       <bpmn:outgoing>Flow_0xfrhn8</bpmn:outgoing>
@@ -30,7 +33,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="calculation-worker" />
         <zeebe:ioMapping>
-          <zeebe:input source="=&#34;AsyncrhonousWorker&#34;" target="typeWorker" />
+          <zeebe:input source="=&#34;AsynchronousWorker&#34;" target="typeWorker" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0vilyig</bpmn:incoming>

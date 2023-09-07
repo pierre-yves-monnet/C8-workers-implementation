@@ -13,12 +13,10 @@ import java.util.concurrent.Semaphore;
 public class ThreadTokenWorker implements JobHandler {
 
   private final MonitorWorker monitorWorker;
-  private final WorkerConfig workerConfig;
   Logger logger = LoggerFactory.getLogger(ThreadTokenWorker.class);
   private final Semaphore semaphore;
 
   public ThreadTokenWorker(WorkerConfig workerConfig, MonitorWorker monitorWorker) {
-    this.workerConfig = workerConfig;
     this.monitorWorker = monitorWorker;
     semaphore = new Semaphore(workerConfig.getNumberOfSemaphores());
   }
@@ -27,12 +25,18 @@ public class ThreadTokenWorker implements JobHandler {
   public void handle(JobClient jobClient, ActivatedJob activatedJob) throws Exception {
     logger.debug("------------- Worker: ThreadTokenWorker " + Thread.currentThread().getName());
     monitorWorker.startHandle(this);
+
+    // We ask for a token, then a limited number of threads can continue after, else the worker waits
+    // doing that, if there is no more token, Zeebe Client waits and do not ask again a new batch
     try {
       semaphore.acquire();
     } catch (Exception e) {
       return;
     }
+    // Now, we get a token, do the job, and release the ZeebeClient thread
+    // The thread must release the token at the end
     doWorkInDifferentThread(jobClient, activatedJob);
+
     monitorWorker.stopHandle(this);
   }
 

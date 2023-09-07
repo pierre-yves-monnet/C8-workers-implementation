@@ -13,12 +13,10 @@ import java.util.Map;
 
 public class ClassicalWorker implements JobHandler {
 
-  private final WorkerConfig workerConfig;
   private final MonitorWorker monitorWorker;
   Logger logger = LoggerFactory.getLogger(ClassicalWorker.class);
 
   public ClassicalWorker(WorkerConfig workerConfig, MonitorWorker monitorWorker) {
-    this.workerConfig = workerConfig;
     this.monitorWorker = monitorWorker;
   }
 
@@ -29,6 +27,8 @@ public class ClassicalWorker implements JobHandler {
     logger.debug("------------- Worker: ClassicalWorker " + Thread.currentThread().getName());
 
     monitorWorker.startHandle(this);
+
+    // We do the job now
     WorkToComplete workToComplete = new WorkToComplete();
     workToComplete.executeJob(this, activatedJob, monitorWorker);
 
